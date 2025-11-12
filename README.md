@@ -290,7 +290,7 @@ For developers and technical professionals who want to understand the architectu
 #### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/eLAWDIYA.git
+git clone https://github.com/Katyura/eLAWDIYA.git
 cd eLAWDIYA
 
 # Install frontend dependencies
@@ -586,8 +586,8 @@ We welcome contributions from both technical and non-technical contributors! Whe
 
 ### 📞 Get in Touch
 
-- **Issues**: Report bugs or request features on [GitHub Issues](https://github.com/your-username/eLAWDIYA/issues)
-- **Discussions**: Join community discussions on [GitHub Discussions](https://github.com/your-username/eLAWDIYA/discussions)
+- **Issues**: Report bugs or request features on [GitHub Issues](https://github.com/Katyura/eLAWDIYA/issues)
+- **Discussions**: Join community discussions on [GitHub Discussions](https://github.com/Katyura/eLAWDIYA/discussions)
 - **Email**: contact@elawdiya.com
 - **Website**: [www.elawdiya.com](https://www.elawdiya.com)
 
@@ -605,9 +605,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact & Support
 
-- **Project Repository**: https://github.com/your-username/eLAWDIYA
-- **Bug Reports & Features**: https://github.com/your-username/eLAWDIYA/issues
-- **Community Discussions**: https://github.com/your-username/eLAWDIYA/discussions
+- **Project Repository**: https://github.com/Katyura/eLAWDIYA
+- **Bug Reports & Features**: https://github.com/Katyura/eLAWDIYA/issues
+- **Community Discussions**: https://github.com/Katyura/eLAWDIYA/discussions
 - **Email**: contact@elawdiya.com
 - **Twitter**: [@elawdiya](https://twitter.com/elawdiya)
 - **Facebook**: [facebook.com/elawdiya](https://facebook.com/elawdiya)

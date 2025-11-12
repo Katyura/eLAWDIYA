@@ -1,6 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
+# Frontend dependencies
 /node_modules
 /.pnp
 .pnp.*
@@ -10,34 +10,187 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
+# Backend dependencies (Python)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# next.js
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Testing
+/coverage
+.nyc_output
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Next.js
 /.next/
 /out/
 
-# production
+# Production build
 /build
 
-# misc
-.DS_Store
-*.pem
+# Environment files (keep .env.example)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# debug
+# Database
+*.sqlite
+*.sqlite3
+*.db
+
+# File uploads
+uploads/
+temp/
+media_files/
+
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+lerna-debug.log*
+logs/
+*.log
 
-# env files (can opt-in for committing if needed)
-.env*
+# AI/ML model files (large files)
+*.onnx
+*.pt
+*.pth
+*.h5
+*.pb
+models/
+model_weights/
 
-# vercel
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Security files
+*.pem
+*.key
+*.crt
+*.p12
+
+# Deployment
 .vercel
+.vercelignore
+.now
 
-# typescript
+# TypeScript
 *.tsbuildinfo
 next-env.d.ts
 
-*.pyc
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Local development
+.local
+.cache/
+
+# Backup files
+*.bak
+*.backup
+*.tmp
+
+# Package managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env.test
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# next.js build output
+.next
+
+# nuxt.js build output
+.nuxt
+
+# vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test

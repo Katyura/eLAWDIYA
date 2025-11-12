@@ -2,7 +2,7 @@
 
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![Issues](https://img.shields.io/badge/issues-welcome-orange)
 
-🌟 **"I can not come up with a better name then this" - Turning Civic Responsibility into Action**
+🌟 **"Couldn’t possibly imagine a better name…" - Turning Civic Responsibility into Action**
 
 ## 📋 Table of Contents
 - [For Everyone: What is eLAWDIYA?](#for-everyone-what-is-elawdiya)

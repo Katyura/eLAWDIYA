@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { apiFetch } from '@/lib/api-client';
 
 interface Offender {
   violationType: string;
@@ -54,10 +55,6 @@ export default function HallOfShame() {
   const [vehicleFilter, setVehicleFilter] = useState<string>('all');
   const [timeRange, setTimeRange] = useState<string>('30');
 
-  useEffect(() => {
-    fetchHallOfShameData();
-  }, [vehicleFilter, timeRange]);
-
   const fetchHallOfShameData = async () => {
     try {
       setLoading(true);
@@ -68,7 +65,7 @@ export default function HallOfShame() {
         time_range: timeRange,
       } as Record<string, string>);
 
-      const response = await fetch(`/api/shame/top-offenders?${params}`);
+      const response = await apiFetch(`/shame/top-offenders?${params}`);
       if (!response.ok) {
         throw new Error('Failed to fetch Hall of Shame data');
       }
@@ -76,13 +73,13 @@ export default function HallOfShame() {
 
       // Normalize backend response keys (snake_case) to frontend-friendly camelCase
       const backend = result.data || {};
-      const normalized = {
+      const normalized: HallOfShameData = {
         offenders: backend.offenders || [],
         overallStats: backend.overall_stats || backend.overallStats || {},
         recentActivity: backend.recent_activity || backend.recentActivity || [],
       };
 
-      setData(normalized as any);
+      setData(normalized);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -91,6 +88,11 @@ export default function HallOfShame() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchHallOfShameData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [vehicleFilter, timeRange]);
 
   const getRiskLevelColor = (level: string) => {
     switch (level) {

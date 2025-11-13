@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { apiFetch } from '@/lib/api-client';
 
 interface PendingReport {
   id: string;
@@ -39,10 +40,9 @@ export default function AdminDashboard() {
   const fetchAdminData = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/admin/verify', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
-        },
+      const token = localStorage.getItem('auth_token');
+      const response = await apiFetch('/admin/verify', {
+        authToken: token || undefined,
       });
 
       if (!response.ok) {
@@ -52,16 +52,16 @@ export default function AdminDashboard() {
       const data = await response.json();
 
       // Normalize backend snake_case fields to frontend-friendly camelCase
-      const pending = (data.pendingReports || []).map((r: any) => ({
-        id: r.id,
-        violationType: r.violation_type,
-        location: r.location,
-        description: r.description,
-        image: r.image_url || r.image,
-        reporterName: r.reporter_name,
-        createdAt: r.created_at,
-        status: r.status,
-        pointsAwarded: r.points_awarded,
+      const pending = (data.pendingReports || []).map((r: Record<string, unknown>) => ({
+        id: r.id as string,
+        violationType: r.violation_type as string,
+        location: r.location as string,
+        description: r.description as string,
+        image: (r.image_url as string) || (r.image as string),
+        reporterName: r.reporter_name as string,
+        createdAt: r.created_at as string,
+        status: r.status as string,
+        pointsAwarded: r.points_awarded as number,
       }));
 
       setPendingReports(pending);
@@ -75,12 +75,13 @@ export default function AdminDashboard() {
 
   const handleVerify = async (reportId: string, verified: boolean) => {
     try {
-      const response = await fetch('/api/admin/verify', {
+      const token = localStorage.getItem('auth_token');
+      const response = await apiFetch('/admin/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
         },
+        authToken: token || undefined,
         // backend expects report_id in snake_case
         body: JSON.stringify({ report_id: reportId, verified }),
       });

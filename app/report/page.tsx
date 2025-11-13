@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { apiFetch } from '@/lib/api-client';
 
 export default function ReportPage() {
   const router = useRouter();
@@ -51,11 +52,10 @@ export default function ReportPage() {
         formData.append('image', image);
       }
 
-      const response = await fetch('/api/reports', {
+      const token = localStorage.getItem('auth_token');
+      const response = await apiFetch('/reports', {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
-        },
+        authToken: token || undefined,
         body: formData,
       });
 

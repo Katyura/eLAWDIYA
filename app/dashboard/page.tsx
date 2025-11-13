@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { apiFetch } from '@/lib/api-client';
 
 interface Report {
   id: string;
@@ -35,10 +36,9 @@ export default function DashboardPage() {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/reports', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
-        },
+      const token = localStorage.getItem('auth_token');
+      const response = await apiFetch('/reports', {
+        authToken: token || undefined,
       });
 
       if (!response.ok) {
@@ -51,14 +51,14 @@ export default function DashboardPage() {
       const rawReports = Array.isArray(data) ? data : data.reports || [];
 
       // Normalize each report's snake_case to camelCase expected by UI
-      const mapped: Report[] = rawReports.map((r: any) => ({
-        id: r.id,
-        violationType: r.violation_type,
-        location: r.location,
-        description: r.description,
-        status: r.status,
-        createdAt: r.created_at,
-        pointsAwarded: r.points_awarded || r.pointsAwarded || 0,
+      const mapped: Report[] = rawReports.map((r: Record<string, unknown>) => ({
+        id: r.id as string,
+        violationType: r.violation_type as string,
+        location: r.location as string,
+        description: r.description as string,
+        status: r.status as string,
+        createdAt: r.created_at as string,
+        pointsAwarded: (r.points_awarded as number) || (r.pointsAwarded as number) || 0,
       }));
 
       setReports(mapped);
@@ -67,8 +67,8 @@ export default function DashboardPage() {
 
       // Fetch current user profile from backend
       try {
-        const profileRes = await fetch('/api/auth/me', {
-          headers: { Authorization: `Bearer ${localStorage.getItem('auth_token')}` },
+        const profileRes = await apiFetch('/auth/me', {
+          authToken: token || undefined,
         });
         if (profileRes.ok) {
           const profile = await profileRes.json();
@@ -79,7 +79,7 @@ export default function DashboardPage() {
         } else {
           setUserData({ name: localStorage.getItem('user_name') || '', email: '', totalPoints });
         }
-      } catch (e) {
+      } catch {
         setUserData({ name: localStorage.getItem('user_name') || '', email: '', totalPoints });
       }
     } catch (err) {

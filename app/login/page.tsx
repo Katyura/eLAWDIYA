@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { apiFetch } from '@/lib/api-client';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await apiFetch('/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -35,8 +36,8 @@ export default function LoginPage() {
 
       // Fetch profile from backend to get user's name and accurate role
       try {
-        const profileRes = await fetch('/api/auth/me', {
-          headers: { Authorization: `Bearer ${data.token}` },
+        const profileRes = await apiFetch('/auth/me', {
+          authToken: data.token,
         });
         if (profileRes.ok) {
           const profile = await profileRes.json();

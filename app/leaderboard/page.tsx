@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { apiFetch } from '@/lib/api-client';
 
 interface LeaderboardUser {
   rank: number;
@@ -25,7 +26,7 @@ export default function LeaderboardPage() {
     try {
       setLoading(true);
       // leaderboard is implemented in the shame router under /api/shame/leaderboard
-      const response = await fetch('/api/shame/leaderboard');
+      const response = await apiFetch('/shame/leaderboard');
 
       if (!response.ok) {
         throw new Error('Failed to fetch leaderboard');
@@ -34,17 +35,17 @@ export default function LeaderboardPage() {
       const data = await response.json();
 
       // Normalize leaderboard entries to frontend shape
-      const list = (data.leaderboard || []).map((u: any) => ({
-        rank: u.rank,
-        name: u.name,
-        totalPoints: u.total_points ?? u.totalPoints,
-        reportCount: u.report_count ?? u.reportCount,
-        verifiedCount: u.verified_count ?? u.verifiedCount,
+      const list = (data.leaderboard || []).map((u: Record<string, unknown>) => ({
+        rank: u.rank as number,
+        name: u.name as string,
+        totalPoints: (u.total_points as number) ?? (u.totalPoints as number),
+        reportCount: (u.report_count as number) ?? (u.reportCount as number),
+        verifiedCount: (u.verified_count as number) ?? (u.verifiedCount as number),
       }));
 
       setLeaderboard(list);
       const ur = data.user_rank || data.userRank || null;
-      setUserRank(ur ? { rank: ur.rank, name: ur.name, totalPoints: ur.total_points || 0, reportCount: ur.report_count || 0, verifiedCount: ur.verified_count || 0 } : null);
+      setUserRank(ur ? { rank: ur.rank as number, name: ur.name as string, totalPoints: (ur.total_points as number) || 0, reportCount: (ur.report_count as number) || 0, verifiedCount: (ur.verified_count as number) || 0 } : null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {

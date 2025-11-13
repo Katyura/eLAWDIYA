@@ -21,7 +21,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://elawdiya:elawdiya@db:5432/elawdiya
+      DATABASE_URL: postgresql://elawdiya:elawdiya@db:5432/elawdiya
       SECRET_KEY: change-me
       POINTS_PER_VERIFIED_REPORT: '100'
     volumes:
@@ -38,7 +38,10 @@ services:
     depends_on:
       - backend
     environment:
-      NEXT_PUBLIC_API_BASE: http://localhost:8000
+      # Inside Docker containers, use service name 'backend' instead of localhost.
+      # For browser requests, the frontend server can be reached at http://localhost:3000,
+      # but API calls from the frontend container to backend container should use the service name.
+      NEXT_PUBLIC_API_URL: http://backend:8000
     volumes:
       - ./:/app
       - /app/node_modules

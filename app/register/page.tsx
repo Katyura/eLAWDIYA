@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { apiFetch } from '@/lib/api-client';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -32,7 +33,7 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await apiFetch('/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -54,15 +55,15 @@ export default function RegisterPage() {
 
       // Fetch profile to capture user's name and role
       try {
-        const profileRes = await fetch('/api/auth/me', {
-          headers: { Authorization: `Bearer ${data.token}` },
+        const profileRes = await apiFetch('/auth/me', {
+          authToken: data.token,
         });
         if (profileRes.ok) {
           const profile = await profileRes.json();
           localStorage.setItem('user_name', profile.name || '');
           localStorage.setItem('user_type', profile.role || data.userType || 'user');
         }
-      } catch (e) {
+      } catch {
         // ignore
       }
 

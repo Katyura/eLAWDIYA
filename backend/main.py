@@ -6,7 +6,7 @@ import os
 load_dotenv()
 
 from app.routes import auth, reports, admin, shame
-
+from app.init_db import init_db
 app = FastAPI(title="eLAWDIYA API", version="1.0.0")
 
 # CORS middleware
@@ -37,4 +37,5 @@ async def health():
 
 if __name__ == "__main__":
     import uvicorn
+    init_db()
     uvicorn.run(app, host="0.0.0.0", port=8000)

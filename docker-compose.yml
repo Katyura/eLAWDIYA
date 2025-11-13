@@ -48,6 +48,7 @@ services:
       # For browser requests, the frontend server can be reached at http://localhost:3000,
       # but API calls from the frontend container to backend container should use the service name.
       NEXT_PUBLIC_API_URL: http://backend:8000
+      DOCKER_ENV: 'true'
     volumes:
       - ./:/app
       - /app/node_modules

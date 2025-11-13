@@ -1,0 +1,18 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Use development mode by default for quick feedback. For production replace with a multi-stage build.
+ENV NODE_ENV=development
+
+# Install deps
+COPY package.json package-lock.json* ./
+RUN npm install 
+
+# Copy source
+COPY . .
+
+EXPOSE 3000
+
+# Start Next.js in dev mode so it picks up local changes and the next.config.ts proxy.
+CMD ["npm", "run", "dev"]

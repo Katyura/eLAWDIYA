@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: elawdiya
+      POSTGRES_PASSWORD: elawdiya
+      POSTGRES_DB: elawdiya
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://elawdiya:elawdiya@db:5432/elawdiya
+      SECRET_KEY: change-me
+      POINTS_PER_VERIFIED_REPORT: '100'
+    volumes:
+      - ./backend:/app
+      - ./uploads:/app/uploads
+    ports:
+      - '8000:8000'
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_BASE: http://localhost:8000
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - '3000:3000'
+
+volumes:
+  db-data:

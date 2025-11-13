@@ -1,0 +1,11 @@
+node_modules
+.venv
+venv
+.pytest_cache
+__pycache__
+.env
+dist
+build
+uploads
+.next
+/.git

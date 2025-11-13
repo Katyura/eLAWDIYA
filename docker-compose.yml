@@ -12,6 +12,11 @@ services:
       - db-data:/var/lib/postgresql/data
     ports:
       - '5432:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U elawdiya -d elawdiya"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
     build:
@@ -19,7 +24,8 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       DATABASE_URL: postgresql://elawdiya:elawdiya@db:5432/elawdiya
       SECRET_KEY: change-me
